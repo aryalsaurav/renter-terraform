@@ -35,3 +35,11 @@ private_subnets = {
     az   = "ap-south-1c"
   }
 }
+
+cluster_name        = "renter-dev"
+cluster_version     = "1.36"
+node_desired_size   = 2
+node_min_size       = 1
+node_max_size       = 3
+node_instance_types = ["c7i-flex.large"]
+cluster_admin_principal_arn = "arn:aws:iam::264595824735:user/saurav"

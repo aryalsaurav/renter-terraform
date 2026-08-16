@@ -32,3 +32,31 @@ variable "private_subnets" {
   }))
 }
 
+variable "cluster_name" {
+  type = string
+}
+
+variable "cluster_version" {
+  type = string
+}
+
+variable "node_desired_size" {
+  type = number
+}
+
+variable "node_max_size" {
+  type = number
+}
+
+variable "node_min_size" {
+  type = number
+}
+
+variable "node_instance_types" {
+  type = list(string)
+}
+
+variable "cluster_admin_principal_arn" {
+  description = "IAM principal used for EKS cluster administration."
+  type        = string
+}

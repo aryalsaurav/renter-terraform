@@ -68,3 +68,20 @@ eks_addons = {
 
 ecr_repository_name = "renter"
 github_repo         = "aryalsaurav/renter"
+
+
+rds_identifier              = "renter-dev-postgres"
+rds_engine_version          = "17"
+rds_instance_class          = "db.t3.micro"
+rds_allocated_storage       = 20
+rds_database_name           = "renter"
+rds_master_username         = "renter"
+rds_multi_az                = false
+rds_backup_retention_period = 0
+rds_skip_final_snapshot     = true
+rds_deletion_protection     = false
+
+redis_replication_group_id = "renter-dev"
+redis_engine_version       = "7.1"
+redis_node_type            = "cache.t4g.micro"
+redis_num_cache_clusters   = 1

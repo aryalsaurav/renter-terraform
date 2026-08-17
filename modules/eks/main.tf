@@ -36,6 +36,10 @@ resource "aws_eks_access_policy_association" "cluster_admin" {
   }
 }
 
+resource "aws_launch_template" "nodes" {
+  name_prefix            = "${var.cluster_name}-nodes-"
+  vpc_security_group_ids = [var.eks_nodes_sg_id]
+}
 resource "aws_eks_node_group" "main" {
   cluster_name  = aws_eks_cluster.main.name
   node_role_arn = var.node_role_arn
@@ -47,6 +51,11 @@ resource "aws_eks_node_group" "main" {
     desired_size = var.node_desired_size
     min_size     = var.node_min_size
     max_size     = var.node_max_size
+  }
+
+  launch_template {
+    id      = aws_launch_template.nodes.id
+    version = aws_launch_template.nodes.latest_version
   }
 
   capacity_type = "ON_DEMAND"

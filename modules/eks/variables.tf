@@ -53,3 +53,7 @@ variable "eks_addons" {
 variable "ebs_csi_role_arn" {
   type = string
 }
+
+variable "eks_nodes_sg_id" {
+  type = string
+}

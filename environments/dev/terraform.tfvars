@@ -67,3 +67,4 @@ eks_addons = {
 }
 
 ecr_repository_name = "renter"
+github_repo         = "aryalsaurav/renter"

@@ -83,3 +83,77 @@ resource "aws_iam_role_policy_attachment" "ebs_csi" {
 
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
+
+
+data "aws_iam_openid_connect_provider" "github" {
+  url = "https://token.actions.githubusercontent.com"
+}
+
+resource "aws_iam_role" "github_action_ecr" {
+  name = "${var.cluster_name}-github-action-ecr"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Federated = data.aws_iam_openid_connect_provider.github.arn
+        }
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Condition = {
+          StringEquals = {
+            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+          }
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:${var.github_repo}:ref:refs/heads/main"
+            ]
+          }
+        }
+      }
+    ]
+  })
+}
+
+
+resource "aws_iam_policy" "github_action_ecr" {
+  name = "${var.cluster_name}-github-renter-ecr"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+
+    Statement = [
+
+      {
+        Effect = "Allow"
+
+        Action = [
+          "ecr:GetAuthorizationToken"
+        ]
+
+        Resource = "*"
+      },
+
+      {
+        Effect = "Allow"
+
+        Action = [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:CompleteLayerUpload",
+          "ecr:InitiateLayerUpload",
+          "ecr:PutImage",
+          "ecr:UploadLayerPart",
+          "ecr:BatchGetImage"
+        ]
+
+        Resource = var.ecr_repo_arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "github_action_ecr" {
+  role       = aws_iam_role.github_action_ecr.name
+  policy_arn = aws_iam_policy.github_action_ecr.arn
+}

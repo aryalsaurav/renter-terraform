@@ -71,3 +71,9 @@ variable "ecr_repository_name" {
   type    = string
   default = "renter"
 }
+
+variable "github_repo" {
+  type    = string
+  default = "repo:aryalsaurav/renter:ref:refs/heads/main"
+
+}

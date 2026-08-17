@@ -87,3 +87,10 @@ resource "aws_eks_pod_identity_association" "ebs_csi" {
   service_account = "ebs-csi-controller-sa"
   role_arn        = var.ebs_csi_role_arn
 }
+
+resource "aws_eks_pod_identity_association" "external_secrets" {
+  cluster_name    = aws_eks_cluster.main.name
+  service_account = "external-secrets"
+  namespace       = "external-secrets"
+  role_arn        = var.external_secrets_role_arn
+}

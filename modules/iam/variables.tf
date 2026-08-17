@@ -11,3 +11,11 @@ variable "github_repo" {
 variable "ecr_repo_arn" {
   type = string
 }
+
+variable "rds_secret_arn" {
+  type = string
+}
+
+variable "application_secret_arn" {
+  type = string
+}

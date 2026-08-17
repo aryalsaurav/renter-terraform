@@ -157,3 +157,50 @@ resource "aws_iam_role_policy_attachment" "github_action_ecr" {
   role       = aws_iam_role.github_action_ecr.name
   policy_arn = aws_iam_policy.github_action_ecr.arn
 }
+
+resource "aws_iam_policy" "external_secrets" {
+  name = "${var.cluster_name}-external-secrets"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = [
+          var.rds_secret_arn,
+          var.application_secret_arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "external_secrets" {
+  name = "${var.cluster_name}-external-secret"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "pods.eks.amazonaws.com"
+        }
+        Action = [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
+      }
+    ]
+  })
+
+  tags = {
+    Name = "${var.cluster_name}-external-secrets-role"
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "external_secrets" {
+  role       = aws_iam_role.external_secrets.name
+  policy_arn = aws_iam_policy.external_secrets.arn
+}

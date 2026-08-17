@@ -57,3 +57,7 @@ variable "ebs_csi_role_arn" {
 variable "eks_nodes_sg_id" {
   type = string
 }
+
+variable "external_secrets_role_arn" {
+  type = string
+}

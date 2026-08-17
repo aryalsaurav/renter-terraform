@@ -14,9 +14,11 @@ module "vpc" {
 module "iam" {
   source = "../../modules/iam"
 
-  cluster_name = var.cluster_name
-  github_repo  = var.github_repo
-  ecr_repo_arn = module.ecr.repository_arn
+  cluster_name           = var.cluster_name
+  github_repo            = var.github_repo
+  ecr_repo_arn           = module.ecr.repository_arn
+  rds_secret_arn         = module.databases.master_user_secret_arn
+  application_secret_arn = module.secret.application_secret_arn
 }
 
 
@@ -35,6 +37,7 @@ module "eks" {
   node_role_arn               = module.iam.node_role_arn
   ebs_csi_role_arn            = module.iam.ebs_csi_role_arn
   cluster_admin_principal_arn = var.cluster_admin_principal_arn
+  external_secrets_role_arn   = module.iam.external_secrets_role_arn
   eks_addons                  = var.eks_addons
   eks_nodes_sg_id             = module.security.eks_nodes_sg_id
 }
@@ -80,4 +83,11 @@ module "security" {
   vpc_id                    = module.vpc.vpc_id
   cluster_name              = var.cluster_name
   cluster_security_group_id = module.eks.cluster_security_group_id
+}
+
+
+module "secret" {
+  source = "../../modules/secrets"
+
+  application_secret_name = var.application_secret_name
 }

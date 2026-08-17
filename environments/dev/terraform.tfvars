@@ -85,3 +85,5 @@ redis_replication_group_id = "renter-dev"
 redis_engine_version       = "7.1"
 redis_node_type            = "cache.t4g.micro"
 redis_num_cache_clusters   = 1
+
+application_secret_name = "renter-dev"

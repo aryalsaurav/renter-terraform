@@ -140,3 +140,9 @@ variable "redis_port" {
   type    = number
   default = 6379
 }
+
+
+variable "application_secret_name" {
+  type    = string
+  default = "renter-dev"
+}

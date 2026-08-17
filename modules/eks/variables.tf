@@ -43,3 +43,13 @@ variable "cluster_admin_principal_arn" {
   description = "IAM principal ARN that receives cluster administrator access to EKS."
   type        = string
 }
+
+variable "eks_addons" {
+  type = map(object({
+    addon_version = string
+  }))
+}
+
+variable "ebs_csi_role_arn" {
+  type = string
+}

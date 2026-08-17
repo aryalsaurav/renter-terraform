@@ -36,10 +36,32 @@ private_subnets = {
   }
 }
 
-cluster_name        = "renter-dev"
-cluster_version     = "1.36"
-node_desired_size   = 2
-node_min_size       = 1
-node_max_size       = 3
-node_instance_types = ["c7i-flex.large"]
+cluster_name                = "renter-dev"
+cluster_version             = "1.36"
+node_desired_size           = 2
+node_min_size               = 1
+node_max_size               = 3
+node_instance_types         = ["c7i-flex.large"]
 cluster_admin_principal_arn = "arn:aws:iam::264595824735:user/saurav"
+
+eks_addons = {
+  vpc-cni = {
+    addon_version = "v1.22.4-eksbuild.3"
+  }
+
+  coredns = {
+    addon_version = "v1.14.3-eksbuild.3"
+  }
+
+  kube-proxy = {
+    addon_version = "v1.36.0-eksbuild.14"
+  }
+
+  eks-pod-identity-agent = {
+    addon_version = "v1.3.10-eksbuild.3"
+  }
+
+  aws-ebs-csi-driver = {
+    addon_version = "v1.63.1-eksbuild.1"
+  }
+}

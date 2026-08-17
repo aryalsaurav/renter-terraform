@@ -10,8 +10,8 @@ resource "aws_eks_cluster" "main" {
   }
 
   access_config {
-    authentication_mode = "API"
-    bootstrap_cluster_creator_admin_permissions = false  # need to change to false in next create destroy 
+    authentication_mode                         = "API"
+    bootstrap_cluster_creator_admin_permissions = false # need to change to false in next create destroy 
   }
 
   tags = {
@@ -55,4 +55,26 @@ resource "aws_eks_node_group" "main" {
     Name = "${var.cluster_name}-nodes"
   }
 
+}
+
+
+resource "aws_eks_addon" "main" {
+  for_each = var.eks_addons
+
+  cluster_name  = aws_eks_cluster.main.name
+  addon_name    = each.key
+  addon_version = each.value.addon_version
+
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  depends_on = [
+    aws_eks_node_group.main
+  ]
+}
+
+resource "aws_eks_pod_identity_association" "ebs_csi" {
+  cluster_name    = aws_eks_cluster.main.name
+  namespace       = "kube-system"
+  service_account = "ebs-csi-controller-sa"
+  role_arn        = var.ebs_csi_role_arn
 }

@@ -5,3 +5,7 @@ output "cluster_role_arn" {
 output "node_role_arn" {
   value = aws_iam_role.node.arn
 }
+
+output "ebs_csi_role_arn" {
+  value = aws_iam_role.ebs_csi.arn
+}

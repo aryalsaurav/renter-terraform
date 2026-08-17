@@ -60,3 +60,9 @@ variable "cluster_admin_principal_arn" {
   description = "IAM principal used for EKS cluster administration."
   type        = string
 }
+
+variable "eks_addons" {
+  type = map(object({
+    addon_version = string
+  }))
+}

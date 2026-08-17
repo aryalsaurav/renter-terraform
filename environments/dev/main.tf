@@ -100,3 +100,42 @@ module "s3" {
   cluster_name = module.eks.cluster_name
 
 }
+
+
+provider "helm" {
+  kubernetes = {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate)
+
+
+    exec = {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "aws"
+      args = [
+        "eks",
+        "get-token",
+        "--cluster-name",
+        var.cluster_name,
+        "--region",
+        var.aws_region
+      ]
+    }
+  }
+
+}
+
+
+resource "helm_release" "argocd" {
+  name      = "argocd"
+  namespace = "argocd"
+
+  create_namespace = true
+
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+
+  wait    = true
+  timeout = 900
+
+  depends_on = [module.eks]
+}

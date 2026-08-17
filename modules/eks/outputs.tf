@@ -10,6 +10,10 @@ output "cluster_endpoint" {
   value = aws_eks_cluster.main.endpoint
 }
 
+output "cluster_certificate" {
+  value = aws_eks_cluster.main.certificate_authority[0].data
+}
+
 output "cluster_version" {
   value = aws_eks_cluster.main.version
 }

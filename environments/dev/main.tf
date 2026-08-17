@@ -35,3 +35,11 @@ module "eks" {
   cluster_admin_principal_arn = var.cluster_admin_principal_arn
   eks_addons                  = var.eks_addons
 }
+
+
+module "ecr" {
+  source = "../../modules/ecr"
+
+  ecr_repository_name = var.ecr_repository_name
+}
+

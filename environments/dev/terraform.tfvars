@@ -65,3 +65,5 @@ eks_addons = {
     addon_version = "v1.63.1-eksbuild.1"
   }
 }
+
+ecr_repository_name = "renter"

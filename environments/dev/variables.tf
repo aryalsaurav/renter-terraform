@@ -66,3 +66,8 @@ variable "eks_addons" {
     addon_version = string
   }))
 }
+
+variable "ecr_repository_name" {
+  type    = string
+  default = "renter"
+}

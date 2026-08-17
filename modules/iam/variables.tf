@@ -19,3 +19,7 @@ variable "rds_secret_arn" {
 variable "application_secret_arn" {
   type = string
 }
+
+variable "storage_bucket_arn" {
+  type = string
+}

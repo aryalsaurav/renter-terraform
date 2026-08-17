@@ -19,6 +19,7 @@ module "iam" {
   ecr_repo_arn           = module.ecr.repository_arn
   rds_secret_arn         = module.databases.master_user_secret_arn
   application_secret_arn = module.secret.application_secret_arn
+  storage_bucket_arn     = module.s3.storage_bucket_arn
 }
 
 
@@ -38,6 +39,7 @@ module "eks" {
   ebs_csi_role_arn            = module.iam.ebs_csi_role_arn
   cluster_admin_principal_arn = var.cluster_admin_principal_arn
   external_secrets_role_arn   = module.iam.external_secrets_role_arn
+  s3_access_role_arn          = module.iam.s3_access_role_arn
   eks_addons                  = var.eks_addons
   eks_nodes_sg_id             = module.security.eks_nodes_sg_id
 }
@@ -90,4 +92,11 @@ module "secret" {
   source = "../../modules/secrets"
 
   application_secret_name = var.application_secret_name
+}
+
+module "s3" {
+  source = "../../modules/s3"
+
+  cluster_name = module.eks.cluster_name
+
 }

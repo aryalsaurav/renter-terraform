@@ -61,3 +61,7 @@ variable "eks_nodes_sg_id" {
 variable "external_secrets_role_arn" {
   type = string
 }
+
+variable "s3_access_role_arn" {
+  type = string
+}

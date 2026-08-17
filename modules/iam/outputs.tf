@@ -13,3 +13,7 @@ output "ebs_csi_role_arn" {
 output "external_secrets_role_arn" {
   value = aws_iam_role.external_secrets.arn
 }
+
+output "s3_access_role_arn" {
+  value = aws_iam_role.s3_access.arn
+}

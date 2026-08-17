@@ -204,3 +204,64 @@ resource "aws_iam_role_policy_attachment" "external_secrets" {
   role       = aws_iam_role.external_secrets.name
   policy_arn = aws_iam_policy.external_secrets.arn
 }
+
+
+resource "aws_iam_policy" "s3_access" {
+  name = "${var.cluster_name}-storage"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject"
+        ]
+        Resource = [
+          "${var.storage_bucket_arn}/*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket"
+        ]
+        Resource = [
+          var.storage_bucket_arn
+        ]
+      }
+    ]
+
+  })
+}
+
+resource "aws_iam_role" "s3_access" {
+  name = "${var.cluster_name}-storage"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "pods.eks.amazonaws.com"
+        }
+        Action = [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
+      }
+    ]
+  })
+
+  tags = {
+    Name = "${var.cluster_name}-storage"
+  }
+}
+
+
+resource "aws_iam_role_policy_attachment" "s3_access" {
+  role       = aws_iam_role.s3_access.name
+  policy_arn = aws_iam_policy.s3_access.arn
+}

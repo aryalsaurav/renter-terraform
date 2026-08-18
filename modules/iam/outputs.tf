@@ -17,3 +17,7 @@ output "external_secrets_role_arn" {
 output "s3_access_role_arn" {
   value = aws_iam_role.s3_access.arn
 }
+
+output "github_action_role_arn" {
+  value = aws_iam_role.github_action_ecr.arn
+}

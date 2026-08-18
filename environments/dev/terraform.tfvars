@@ -64,6 +64,9 @@ eks_addons = {
   aws-ebs-csi-driver = {
     addon_version = "v1.63.1-eksbuild.1"
   }
+  metrics-server = {
+    addon_version = "v0.9.0-eksbuild.5"
+  }
 }
 
 ecr_repository_name = "renter"

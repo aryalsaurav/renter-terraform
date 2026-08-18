@@ -13,3 +13,11 @@ output "github_action_role_arn" {
 output "repository_url" {
   value = module.ecr.repository_url
 }
+
+output "rds_endpoint" {
+  value = module.databases.endpoint
+}
+
+output "redis_endpoint" {
+  value = module.databases.redis_endpoint
+}

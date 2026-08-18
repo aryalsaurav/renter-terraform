@@ -97,7 +97,7 @@ resource "aws_eks_pod_identity_association" "external_secrets" {
 
 resource "aws_eks_pod_identity_association" "s3_access" {
   cluster_name    = aws_eks_cluster.main.name
-  service_account = "rental-api"
+  service_account = "renter-api"
   namespace       = "renter"
   role_arn        = var.s3_access_role_arn
 }

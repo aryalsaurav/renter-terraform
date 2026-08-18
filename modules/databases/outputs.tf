@@ -17,3 +17,7 @@ output "master_user_secret_arn" {
 output "redis_endpoint" {
   value = aws_elasticache_replication_group.main.primary_endpoint_address
 }
+
+output "rds_secret_name" {
+  value = data.aws_secretsmanager_secret.rds.name
+}

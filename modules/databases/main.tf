@@ -68,3 +68,8 @@ resource "aws_elasticache_replication_group" "main" {
   }
 
 }
+
+
+data "aws_secretsmanager_secret" "rds" {
+  arn = aws_db_instance.main.master_user_secret[0].secret_arn
+}

@@ -60,6 +60,10 @@ resource "aws_eks_node_group" "main" {
 
   capacity_type = "ON_DEMAND"
 
+  lifecycle {
+    ignore_changes = [scaling_config[0].desired_size]
+  }
+
   tags = {
     Name = "${var.cluster_name}-nodes"
   }

@@ -133,9 +133,18 @@ resource "helm_release" "argocd" {
 
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
+  version    = "10.4.0"
 
   wait    = true
   timeout = 900
+
+  values = [yamlencode({
+    configs = {
+      params = {
+        "server.insecure" = true
+      }
+    }
+  })]
 
   depends_on = [module.eks]
 }

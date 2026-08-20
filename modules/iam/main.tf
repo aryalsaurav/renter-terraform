@@ -217,7 +217,9 @@ resource "aws_iam_policy" "s3_access" {
         Action = [
           "s3:GetObject",
           "s3:PutObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts",
         ]
         Resource = [
           "${var.storage_bucket_arn}/*"
